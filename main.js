@@ -18,15 +18,15 @@ class LottoBall extends HTMLElement {
                     width: 50px;
                     height: 50px;
                     border-radius: 50%;
-                    background-color: #f8f9fa;
-                    border: 1px solid #dee2e6;
+                    background-color: var(--ball-bg, #f8f9fa);
+                    border: 1px solid var(--ball-border, #dee2e6);
                     display: flex;
                     justify-content: center;
                     align-items: center;
                     font-size: 1.5rem;
                     font-weight: bold;
-                    color: #212529;
-                    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+                    color: var(--text, #212529);
+                    box-shadow: var(--shadow, 0 6px 14px rgba(0, 0, 0, 0.12));
                     transform-origin: center;
                     animation:
                         pop-in 650ms var(--delay) cubic-bezier(0.16, 1, 0.3, 1) both,
@@ -77,6 +77,27 @@ class LottoBall extends HTMLElement {
 }
 
 customElements.define('lotto-ball', LottoBall);
+
+const themeToggleBtn = document.getElementById('theme-toggle');
+const setTheme = (theme) => {
+    document.body.setAttribute('data-theme', theme);
+    themeToggleBtn.textContent = theme === 'dark' ? 'Light Mode' : 'Dark Mode';
+};
+
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme) {
+    setTheme(savedTheme);
+} else {
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    setTheme(prefersDark ? 'dark' : 'light');
+}
+
+themeToggleBtn.addEventListener('click', () => {
+    const current = document.body.getAttribute('data-theme') || 'light';
+    const next = current === 'dark' ? 'light' : 'dark';
+    setTheme(next);
+    localStorage.setItem('theme', next);
+});
 
 document.getElementById('generate-btn').addEventListener('click', () => {
     const lottoNumbersContainer = document.getElementById('lotto-numbers-container');

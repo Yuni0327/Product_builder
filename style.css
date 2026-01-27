@@ -1,24 +1,61 @@
+:root {
+    --bg: #f0f2f5;
+    --surface: #ffffff;
+    --text: #1b1f24;
+    --muted: #4b5563;
+    --button-bg: #007bff;
+    --button-bg-hover: #0056b3;
+    --button-text: #ffffff;
+    --ball-bg: #f8f9fa;
+    --ball-border: #dee2e6;
+    --shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+}
+
+body[data-theme="dark"] {
+    --bg: #0b1020;
+    --surface: #141b2d;
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+    --button-bg: #22c55e;
+    --button-bg-hover: #16a34a;
+    --button-text: #0b1020;
+    --ball-bg: #1f2937;
+    --ball-border: #334155;
+    --shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+}
+
 body {
     font-family: 'Arial', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f0f2f5;
+    background-color: var(--bg);
+    color: var(--text);
     margin: 0;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .container {
     text-align: center;
     padding: 2rem;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: var(--surface);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 2rem;
 }
 
 h1 {
-    color: #333;
-    margin-bottom: 2rem;
+    color: var(--text);
+    margin: 0;
 }
 
 #lotto-numbers-container {
@@ -28,17 +65,30 @@ h1 {
     margin-bottom: 2rem;
 }
 
-#generate-btn {
+.button {
     padding: 0.8rem 1.5rem;
     font-size: 1rem;
-    color: white;
-    background-color: #007bff;
+    color: var(--button-text);
+    background-color: var(--button-bg);
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-#generate-btn:hover {
-    background-color: #0056b3;
+.button:hover {
+    background-color: var(--button-bg-hover);
+}
+
+.toggle-btn {
+    padding: 0.6rem 0.9rem;
+    font-size: 0.9rem;
+    background-color: transparent;
+    color: var(--muted);
+    border: 1px solid var(--muted);
+}
+
+.toggle-btn:hover {
+    color: var(--text);
+    border-color: var(--text);
 }
