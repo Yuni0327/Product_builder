@@ -122,7 +122,12 @@ body::after {
     margin-bottom: 26px;
 }
 
-.mode-switch {
+.card {
+    display: flex;
+    flex-direction: column;
+}
+
+.top-controls {
     display: inline-flex;
     gap: 8px;
     padding: 6px;
@@ -130,6 +135,7 @@ body::after {
     border: 1px solid var(--outline);
     background: var(--panel-bg);
     margin-bottom: 20px;
+    align-self: flex-end;
 }
 
 .tab-button {
@@ -677,7 +683,7 @@ body::after {
         text-align: center;
     }
 
-    .mode-switch {
+    .top-controls {
         width: 100%;
         justify-content: center;
     }
