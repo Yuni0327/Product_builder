@@ -37,6 +37,33 @@
                 <button id="generate-btn" class="button primary" type="button">Generate Numbers</button>
                 <button id="shuffle-btn" class="button ghost" type="button">Re-roll Animation</button>
             </div>
+            <div class="form-wrap">
+                <div class="section-title">제휴 문의</div>
+                <form class="contact-form" action="https://formspree.io/f/mlgbklda" method="POST">
+                    <label>
+                        이름
+                        <input type="text" name="name" autocomplete="name" required />
+                    </label>
+                    <label>
+                        회사/브랜드
+                        <input type="text" name="company" autocomplete="organization" />
+                    </label>
+                    <label>
+                        이메일
+                        <input type="email" name="email" autocomplete="email" required />
+                    </label>
+                    <label>
+                        연락처
+                        <input type="tel" name="phone" autocomplete="tel" />
+                    </label>
+                    <label class="full">
+                        문의 내용
+                        <textarea name="message" rows="4" required></textarea>
+                    </label>
+                    <input type="text" name="_gotcha" class="honeypot" tabindex="-1" autocomplete="off" />
+                    <button class="button primary" type="submit">문의 보내기</button>
+                </form>
+            </div>
         </div>
     </div>
     <script src="main.js"></script>

@@ -238,6 +238,60 @@ body::after {
     border-color: var(--text);
 }
 
+.form-wrap {
+    margin-top: 28px;
+}
+
+.contact-form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 10px;
+}
+
+.contact-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+
+.contact-form input,
+.contact-form textarea {
+    border-radius: 14px;
+    border: 1px solid var(--outline);
+    padding: 12px 14px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    background: rgba(255, 255, 255, 0.7);
+    color: var(--text);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: var(--secondary);
+    box-shadow: 0 0 0 3px rgba(31, 60, 255, 0.15);
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.contact-form .full {
+    grid-column: 1 / -1;
+}
+
+.contact-form .button {
+    justify-self: start;
+}
+
+.honeypot {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+    pointer-events: none;
+}
+
 .card.celebrate {
     animation: celebrate 900ms ease-out;
 }
@@ -267,6 +321,14 @@ body::after {
     }
     .button {
         width: 100%;
+    }
+
+    .contact-form {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-form .button {
+        justify-self: stretch;
     }
 }
 
