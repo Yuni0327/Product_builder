@@ -3,17 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lotto Number Generator</title>
+    <title>Lotto Atelier</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Lotto Number Generator</h1>
-            <button id="theme-toggle" class="button toggle-btn" type="button">Dark Mode</button>
+    <div class="app">
+        <div class="card">
+            <div class="header">
+                <div class="title-group">
+                    <p class="eyebrow">Number Atelier</p>
+                    <h1>Lotto Atelier</h1>
+                    <p class="subtitle">세련된 추첨 모션과 보너스 번호까지 한 번에.</p>
+                </div>
+                <button id="theme-toggle" class="button toggle-btn" type="button" aria-label="Toggle theme">
+                    Dark Mode
+                </button>
+            </div>
+            <div class="results" aria-live="polite">
+                <div class="numbers">
+                    <div class="section-title">Main Numbers</div>
+                    <div id="lotto-numbers-container" class="balls"></div>
+                </div>
+                <div class="bonus">
+                    <div class="section-title">Bonus</div>
+                    <div id="bonus-number-container" class="balls bonus-ball"></div>
+                </div>
+            </div>
+            <div class="meta">
+                <span class="meta-label">Last draw</span>
+                <span id="draw-time">--:--</span>
+            </div>
+            <div class="actions">
+                <button id="generate-btn" class="button primary" type="button">Generate Numbers</button>
+                <button id="shuffle-btn" class="button ghost" type="button">Re-roll Animation</button>
+            </div>
         </div>
-        <div id="lotto-numbers-container"></div>
-        <button id="generate-btn" class="button" type="button">Generate Numbers</button>
     </div>
     <script src="main.js"></script>
 </body>
