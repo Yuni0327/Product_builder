@@ -174,26 +174,6 @@ body {
     transition: border-color 0.2s ease, transform 0.2s ease;
 }
 
-#disqus_thread {
-    background: var(--panel-bg);
-    border: 1px solid var(--outline);
-    border-radius: 12px;
-    padding: 16px;
-}
-
-body[data-theme="dark"] #disqus_thread {
-    background: #0f0f0f;
-    border-color: #262626;
-}
-
-#disqus_thread iframe {
-    color-scheme: light;
-}
-
-body[data-theme="dark"] #disqus_thread iframe {
-    color-scheme: dark;
-    filter: none;
-}
 
 .chooser-button:hover {
     border-color: var(--secondary);
