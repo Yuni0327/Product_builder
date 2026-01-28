@@ -109,6 +109,7 @@ const pageSubtitle = document.getElementById('page-subtitle');
 const setTheme = (theme) => {
     if (!themeToggleBtn) return;
     document.body.setAttribute('data-theme', theme);
+    document.documentElement.style.colorScheme = theme;
     themeToggleBtn.textContent = theme === 'dark' ? 'Light Mode' : 'Dark Mode';
 };
 
@@ -142,6 +143,9 @@ const setMode = (mode) => {
             pageSubtitle.textContent = '가장 비슷한 동물상과 특징을 확인해보세요.';
         }
     }
+    if (isLotto) {
+        loadDisqus();
+    }
 };
 
 modeLottoBtn?.addEventListener('click', () => setMode('lotto'));
@@ -160,6 +164,27 @@ chooserAnimal?.addEventListener('click', () => {
     setMode('animal');
     closeChooser();
 });
+
+const loadDisqus = () => {
+    if (window.DISQUS) {
+        window.DISQUS.reset({
+            reload: true,
+            config: function () {
+                this.page.url = window.location.href;
+                this.page.identifier = 'lotto-page';
+            }
+        });
+        return;
+    }
+    window.disqus_config = function () {
+        this.page.url = window.location.href;
+        this.page.identifier = 'lotto-page';
+    };
+    const script = document.createElement('script');
+    script.src = 'https://productbuilder-jxohkjxbtb.disqus.com/embed.js';
+    script.setAttribute('data-timestamp', String(+new Date()));
+    document.head.appendChild(script);
+};
 
 const lottoNumbersContainer = document.getElementById('lotto-numbers-container');
 const bonusContainer = document.getElementById('bonus-number-container');
