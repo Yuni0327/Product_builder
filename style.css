@@ -731,6 +731,34 @@ body[data-theme="dark"] #disqus_thread iframe {
 
     .lab-layout {
         grid-template-columns: 1fr;
+        grid-template-areas:
+            "result"
+            "media"
+            "details";
+        gap: 14px;
+    }
+
+    .lab-left {
+        display: contents;
+    }
+
+    .hero-card {
+        grid-area: result;
+        padding: 16px;
+    }
+
+    .lab-right {
+        grid-area: media;
+        padding: 14px;
+    }
+
+    .prediction-panel {
+        grid-area: details;
+        padding: 14px;
+    }
+
+    .media-frame.circle.large {
+        width: min(240px, 68vw);
     }
 
     .result-actions {
