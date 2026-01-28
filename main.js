@@ -285,6 +285,16 @@ const classOrder = ['강아지', '고양이', '여우', '토끼', '햄스터', '
 
 const normalizeLabel = (label) => labelMap[label] || label;
 
+const traitsMap = {
+    강아지: '밝고 친근한 분위기, 자연스러운 호감형 인상.',
+    고양이: '도도하고 세련된 이미지, 시선이 또렷한 타입.',
+    여우: '날렵하고 영리한 인상, 분위기 주도형.',
+    토끼: '부드럽고 순한 느낌, 귀여움이 강조되는 타입.',
+    햄스터: '작고 아기자기한 이미지, 사랑스러운 미소.',
+    사슴: '우아하고 차분한 분위기, 맑은 눈매.',
+    곰: '든든하고 따뜻한 인상, 믿음직한 이미지.'
+};
+
 const getEmoji = (label) => {
     if (emojiMap[label]) {
         return emojiMap[label];
@@ -299,11 +309,13 @@ const setStatus = (text) => {
 
 const setResult = (label, score) => {
     const emoji = getEmoji(label);
+    const traits = traitsMap[label] || '부드러운 인상과 안정적인 분위기가 느껴져요.';
     resultBox.innerHTML = `
         <span class="result-emoji">${emoji}</span>
         <div>
             <div class="result-label">${label}</div>
             <div class="result-score">${score}</div>
+            <p class="result-traits">${traits}</p>
         </div>
     `;
 };
