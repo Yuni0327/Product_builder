@@ -253,6 +253,7 @@ let webcam = null;
 let webcamFrame = null;
 let labelContainer = null;
 let maxPredictions = 0;
+let classLabels = [];
 
 const emojiMap = {
     dog: '🐶',
@@ -283,7 +284,19 @@ const labelMap = {
 
 const classOrder = ['강아지', '고양이', '여우', '토끼', '햄스터', '사슴', '곰'];
 
-const normalizeLabel = (label) => labelMap[label] || label;
+const normalizeLabel = (label) => {
+    const mapped = labelMap[label] || label;
+    if (classLabels.length) {
+        const match = String(mapped).match(/class\s*(\d+)/i);
+        if (match) {
+            const index = Number(match[1]) - 1;
+            if (!Number.isNaN(index) && classLabels[index]) {
+                return classLabels[index];
+            }
+        }
+    }
+    return mapped;
+};
 
 const traitsMap = {
     강아지: '밝고 친근한 분위기, 자연스러운 호감형 인상.',
@@ -372,6 +385,7 @@ const loadModel = async () => {
     setStatus('모델 불러오는 중...');
     try {
         model = await tmImage.load(MODEL_URL, METADATA_URL);
+        classLabels = typeof model.getClassLabels === 'function' ? model.getClassLabels() : [];
         maxPredictions = classOrder.length || model.getTotalClasses();
         labelContainer = labelContainerEl;
         labelContainer.innerHTML = '';
