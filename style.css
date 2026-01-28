@@ -1,15 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&display=swap');
 
 :root {
-    --bg: #f3f4f6;
+    --bg: #f5f6f8;
     --surface: #ffffff;
     --text: #111827;
     --muted: #6b7280;
-    --primary: #111827;
-    --primary-hover: #1f2937;
-    --secondary: #2563eb;
-    --secondary-hover: #1d4ed8;
-    --accent: #f1f5f9;
+    --primary: #1f2937;
+    --primary-hover: #111827;
+    --secondary: #3b82f6;
+    --secondary-hover: #2563eb;
+    --accent: #eef2ff;
     --outline: #e5e7eb;
     --shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
     --meta-bg: #f9fafb;
@@ -28,7 +28,7 @@ body[data-theme="dark"] {
     --primary-hover: #e5e7eb;
     --secondary: #60a5fa;
     --secondary-hover: #3b82f6;
-    --accent: #0f172a;
+    --accent: #111827;
     --outline: #262626;
     --shadow: 0 12px 26px rgba(0, 0, 0, 0.4);
     --meta-bg: #0f0f0f;
@@ -50,6 +50,10 @@ body {
     transition: background-color 0.25s ease, color 0.25s ease;
     overflow-x: hidden;
     padding: 32px 0;
+}
+
+.app {
+    background: linear-gradient(180deg, rgba(59, 130, 246, 0.06), transparent 35%);
 }
 
 .app {
@@ -168,6 +172,21 @@ body {
     background: var(--accent);
     cursor: pointer;
     transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+#disqus_thread {
+    background: var(--panel-bg);
+    border: 1px solid var(--outline);
+    border-radius: 12px;
+    padding: 16px;
+}
+
+#disqus_thread iframe {
+    color-scheme: light;
+}
+
+body[data-theme="dark"] #disqus_thread {
+    color-scheme: dark;
 }
 
 .chooser-button:hover {
