@@ -97,6 +97,10 @@ class LottoBall extends HTMLElement {
 customElements.define('lotto-ball', LottoBall);
 
 const themeToggleBtn = document.getElementById('theme-toggle');
+const modeLottoBtn = document.getElementById('mode-lotto');
+const modeAnimalBtn = document.getElementById('mode-animal');
+const lottoSection = document.getElementById('lotto-section');
+const animalSection = document.getElementById('animal-section');
 const setTheme = (theme) => {
     document.body.setAttribute('data-theme', theme);
     themeToggleBtn.textContent = theme === 'dark' ? 'Light Mode' : 'Dark Mode';
@@ -116,6 +120,17 @@ themeToggleBtn.addEventListener('click', () => {
     setTheme(next);
     localStorage.setItem('theme', next);
 });
+
+const setMode = (mode) => {
+    const isLotto = mode === 'lotto';
+    modeLottoBtn.classList.toggle('is-active', isLotto);
+    modeAnimalBtn.classList.toggle('is-active', !isLotto);
+    lottoSection.classList.toggle('is-active', isLotto);
+    animalSection.classList.toggle('is-active', !isLotto);
+};
+
+modeLottoBtn.addEventListener('click', () => setMode('lotto'));
+modeAnimalBtn.addEventListener('click', () => setMode('animal'));
 
 const lottoNumbersContainer = document.getElementById('lotto-numbers-container');
 const bonusContainer = document.getElementById('bonus-number-container');

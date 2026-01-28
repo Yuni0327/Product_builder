@@ -112,6 +112,46 @@ body::after {
     margin-bottom: 26px;
 }
 
+.mode-switch {
+    display: inline-flex;
+    gap: 8px;
+    padding: 6px;
+    border-radius: 999px;
+    border: 1px solid var(--outline);
+    background: rgba(255, 255, 255, 0.6);
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    font-weight: 600;
+    padding: 0.5rem 1.2rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.tab-button.is-active {
+    background: var(--secondary);
+    color: #fff;
+}
+
+.mode-section {
+    display: none;
+    animation: fade-in 360ms ease;
+}
+
+.mode-section.is-active {
+    display: block;
+}
+
+@keyframes fade-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 .eyebrow {
     text-transform: uppercase;
     letter-spacing: 0.22em;
@@ -291,6 +331,10 @@ body::after {
     min-height: 320px;
 }
 
+.panel.full {
+    grid-column: 1 / -1;
+}
+
 .panel-title {
     font-weight: 600;
     letter-spacing: 0.12em;
@@ -316,6 +360,19 @@ body::after {
     overflow: hidden;
 }
 
+.media-frame.circle {
+    border-radius: 50%;
+    aspect-ratio: 1 / 1;
+    min-height: auto;
+    max-width: 320px;
+    align-self: center;
+    margin: 0 auto;
+}
+
+.media-frame.circle canvas,
+.media-frame.circle img {
+    border-radius: 50%;
+}
 .media-frame canvas,
 .media-frame img {
     width: 100%;
@@ -536,6 +593,11 @@ body::after {
     .file-button {
         width: 100%;
         text-align: center;
+    }
+
+    .mode-switch {
+        width: 100%;
+        justify-content: center;
     }
 }
 
