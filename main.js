@@ -101,6 +101,11 @@ const modeLottoBtn = document.getElementById('mode-lotto');
 const modeAnimalBtn = document.getElementById('mode-animal');
 const lottoSection = document.getElementById('lotto-section');
 const animalSection = document.getElementById('animal-section');
+const chooser = document.getElementById('mode-chooser');
+const chooserLotto = document.getElementById('chooser-lotto');
+const chooserAnimal = document.getElementById('chooser-animal');
+const pageTitle = document.getElementById('page-title');
+const pageSubtitle = document.getElementById('page-subtitle');
 const setTheme = (theme) => {
     if (!themeToggleBtn) return;
     document.body.setAttribute('data-theme', theme);
@@ -128,10 +133,33 @@ const setMode = (mode) => {
     modeAnimalBtn?.classList.toggle('is-active', !isLotto);
     lottoSection?.classList.toggle('is-active', isLotto);
     animalSection?.classList.toggle('is-active', !isLotto);
+    if (pageTitle && pageSubtitle) {
+        if (isLotto) {
+            pageTitle.textContent = 'Lotto Atelier';
+            pageSubtitle.textContent = '세련된 추첨 모션과 보너스 번호까지 한 번에.';
+        } else {
+            pageTitle.textContent = '동물상 테스트';
+            pageSubtitle.textContent = '가장 비슷한 동물상과 특징을 확인해보세요.';
+        }
+    }
 };
 
 modeLottoBtn?.addEventListener('click', () => setMode('lotto'));
 modeAnimalBtn?.addEventListener('click', () => setMode('animal'));
+
+const closeChooser = () => {
+    chooser?.classList.add('is-hidden');
+};
+
+chooserLotto?.addEventListener('click', () => {
+    setMode('lotto');
+    closeChooser();
+});
+
+chooserAnimal?.addEventListener('click', () => {
+    setMode('animal');
+    closeChooser();
+});
 
 const lottoNumbersContainer = document.getElementById('lotto-numbers-container');
 const bonusContainer = document.getElementById('bonus-number-container');
