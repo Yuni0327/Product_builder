@@ -186,8 +186,13 @@ body[data-theme="dark"] #disqus_thread {
     border-color: #262626;
 }
 
+#disqus_thread iframe {
+    color-scheme: light;
+}
+
 body[data-theme="dark"] #disqus_thread iframe {
-    filter: invert(1) hue-rotate(180deg);
+    color-scheme: dark;
+    filter: none;
 }
 
 .chooser-button:hover {
