@@ -240,12 +240,14 @@ const emojiMap = {
     fox: '🦊',
     hamster: '🐹',
     rabbit: '🐰',
+    bear: '🐻',
     강아지: '🐶',
     고양이: '🐱',
     사슴: '🦌',
     여우: '🦊',
     햄스터: '🐹',
-    토끼: '🐰'
+    토끼: '🐰',
+    곰: '🐻'
 };
 
 const getEmoji = (label) => {
@@ -271,9 +273,20 @@ const setResult = (label, score) => {
     `;
 };
 
+const classOrder = ['강아지', '고양이', '여우', '토끼', '햄스터', '사슴', '곰'];
+
+const sortPredictions = (predictions) => {
+    const orderMap = new Map(classOrder.map((label, index) => [label, index]));
+    return [...predictions].sort((a, b) => {
+        const aIndex = orderMap.has(a.className) ? orderMap.get(a.className) : 999;
+        const bIndex = orderMap.has(b.className) ? orderMap.get(b.className) : 999;
+        return aIndex - bIndex;
+    });
+};
+
 const renderPredictions = (predictions) => {
-    const sorted = [...predictions].sort((a, b) => b.probability - a.probability);
-    const top = sorted[0];
+    const sorted = sortPredictions(predictions);
+    const top = [...predictions].sort((a, b) => b.probability - a.probability)[0];
     const percent = Math.round(top.probability * 100);
     setResult(top.className, `${percent}% 확률`);
 
@@ -295,8 +308,9 @@ const renderPredictions = (predictions) => {
 
 const updateLabelContainer = (predictions) => {
     if (!labelContainer) return;
+    const ordered = sortPredictions(predictions);
     for (let i = 0; i < maxPredictions; i += 1) {
-        const prediction = predictions[i];
+        const prediction = ordered[i];
         labelContainer.childNodes[i].innerHTML = `${prediction.className}: ${prediction.probability.toFixed(2)}`;
     }
 };
