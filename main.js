@@ -166,6 +166,9 @@ chooserAnimal?.addEventListener('click', () => {
 });
 
 const loadDisqus = () => {
+    if (!document.getElementById('disqus_thread')) {
+        return;
+    }
     if (window.DISQUS) {
         window.DISQUS.reset({
             reload: true,
@@ -183,8 +186,12 @@ const loadDisqus = () => {
     const script = document.createElement('script');
     script.src = 'https://productbuilder-jxohkjxbtb.disqus.com/embed.js';
     script.setAttribute('data-timestamp', String(+new Date()));
-    document.head.appendChild(script);
+    (document.head || document.body).appendChild(script);
 };
+
+if (lottoSection?.classList.contains('is-active')) {
+    loadDisqus();
+}
 
 const lottoNumbersContainer = document.getElementById('lotto-numbers-container');
 const bonusContainer = document.getElementById('bonus-number-container');
