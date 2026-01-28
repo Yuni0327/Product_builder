@@ -212,3 +212,186 @@ document.getElementById('shuffle-btn').addEventListener('click', () => {
 });
 
 generateTicket();
+
+const TM_MODEL_BASE = 'https://teachablemachine.withgoogle.com/models/mrrlxN-j5/';
+const MODEL_URL = `${TM_MODEL_BASE}model.json`;
+const METADATA_URL = `${TM_MODEL_BASE}metadata.json`;
+
+const webcamStartBtn = document.getElementById('webcam-start');
+const webcamStopBtn = document.getElementById('webcam-stop');
+const webcamContainer = document.getElementById('webcam-container');
+const uploadInput = document.getElementById('image-upload');
+const previewImage = document.getElementById('preview-image');
+const resultBox = document.getElementById('animal-result');
+const predictionList = document.getElementById('prediction-list');
+const labelContainerEl = document.getElementById('label-container');
+const modelStatus = document.getElementById('model-status');
+
+let model = null;
+let webcam = null;
+let webcamFrame = null;
+let labelContainer = null;
+let maxPredictions = 0;
+
+const emojiMap = {
+    dog: '🐶',
+    cat: '🐱',
+    deer: '🦌',
+    fox: '🦊',
+    hamster: '🐹',
+    rabbit: '🐰',
+    강아지: '🐶',
+    고양이: '🐱',
+    사슴: '🦌',
+    여우: '🦊',
+    햄스터: '🐹',
+    토끼: '🐰'
+};
+
+const getEmoji = (label) => {
+    if (emojiMap[label]) {
+        return emojiMap[label];
+    }
+    const normalized = label.toLowerCase();
+    return emojiMap[normalized] || '🐾';
+};
+
+const setStatus = (text) => {
+    modelStatus.textContent = text;
+};
+
+const setResult = (label, score) => {
+    const emoji = getEmoji(label);
+    resultBox.innerHTML = `
+        <span class="result-emoji">${emoji}</span>
+        <div>
+            <div class="result-label">${label}</div>
+            <div class="result-score">${score}</div>
+        </div>
+    `;
+};
+
+const renderPredictions = (predictions) => {
+    const sorted = [...predictions].sort((a, b) => b.probability - a.probability);
+    const top = sorted[0];
+    const percent = Math.round(top.probability * 100);
+    setResult(top.className, `${percent}% 확률`);
+
+    predictionList.innerHTML = '';
+    sorted.forEach((prediction) => {
+        const row = document.createElement('div');
+        row.className = 'prediction-item';
+        const probabilityPercent = Math.round(prediction.probability * 100);
+        row.innerHTML = `
+            <div class="prediction-header">
+                <span>${prediction.className}</span>
+                <span>${probabilityPercent}%</span>
+            </div>
+            <div class="prediction-bar"><span style="width:${probabilityPercent}%"></span></div>
+        `;
+        predictionList.appendChild(row);
+    });
+};
+
+const updateLabelContainer = (predictions) => {
+    if (!labelContainer) return;
+    for (let i = 0; i < maxPredictions; i += 1) {
+        const prediction = predictions[i];
+        labelContainer.childNodes[i].innerHTML = `${prediction.className}: ${prediction.probability.toFixed(2)}`;
+    }
+};
+
+const loadModel = async () => {
+    if (model) {
+        return model;
+    }
+    setStatus('모델 불러오는 중...');
+    try {
+        model = await tmImage.load(MODEL_URL, METADATA_URL);
+        maxPredictions = model.getTotalClasses();
+        labelContainer = labelContainerEl;
+        labelContainer.innerHTML = '';
+        for (let i = 0; i < maxPredictions; i += 1) {
+            labelContainer.appendChild(document.createElement('div'));
+        }
+        setStatus('모델 준비 완료.');
+        return model;
+    } catch (error) {
+        setStatus('모델 로딩에 실패했어요. 네트워크를 확인해주세요.');
+        throw error;
+    }
+};
+
+const stopWebcam = () => {
+    if (webcamFrame) {
+        cancelAnimationFrame(webcamFrame);
+        webcamFrame = null;
+    }
+    if (webcam) {
+        webcam.stop();
+        webcam = null;
+    }
+    webcamContainer.innerHTML = '<span class="placeholder">카메라를 시작하면 여기에 표시됩니다.</span>';
+};
+
+const predictImage = async (imageElement) => {
+    const activeModel = await loadModel();
+    const predictions = await activeModel.predict(imageElement);
+    updateLabelContainer(predictions);
+    renderPredictions(predictions);
+};
+
+async function loop() {
+    if (!webcam) return;
+    webcam.update();
+    await predict();
+    webcamFrame = window.requestAnimationFrame(loop);
+}
+
+async function init() {
+    stopWebcam();
+    await loadModel();
+    previewImage.classList.remove('is-visible');
+    previewImage.removeAttribute('src');
+    webcam = new tmImage.Webcam(280, 280, true);
+    await webcam.setup();
+    await webcam.play();
+    webcamContainer.innerHTML = '';
+    webcamContainer.appendChild(webcam.canvas);
+    window.requestAnimationFrame(loop);
+}
+
+async function predict() {
+    const predictions = await model.predict(webcam.canvas);
+    updateLabelContainer(predictions);
+    renderPredictions(predictions);
+}
+
+webcamStartBtn.addEventListener('click', async () => {
+    try {
+        await init();
+    } catch (error) {
+        setStatus('카메라 접근에 실패했어요. 권한을 확인해주세요.');
+    }
+});
+
+webcamStopBtn.addEventListener('click', () => {
+    stopWebcam();
+    setStatus('웹캠이 중지되었습니다.');
+});
+
+uploadInput.addEventListener('change', async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    stopWebcam();
+    setStatus('이미지 분석 중...');
+    const reader = new FileReader();
+    reader.onload = async () => {
+        previewImage.src = reader.result;
+        previewImage.classList.add('is-visible');
+        previewImage.onload = async () => {
+            await predictImage(previewImage);
+        };
+    };
+    reader.readAsDataURL(file);
+});

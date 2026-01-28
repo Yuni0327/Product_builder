@@ -37,6 +37,40 @@
                 <button id="generate-btn" class="button primary" type="button">Generate Numbers</button>
                 <button id="shuffle-btn" class="button ghost" type="button">Re-roll Animation</button>
             </div>
+            <div class="animal-lab">
+                <div class="section-title">동물상 테스트</div>
+                <p class="subtitle small">강아지, 고양이, 사슴, 여우, 햄스터, 토끼 중 가장 가까운 이미지를 찾아요.</p>
+                <div class="lab-grid">
+                    <div class="panel">
+                        <div class="panel-title">Input</div>
+                        <div class="input-actions">
+                            <button id="webcam-start" class="button primary" type="button">웹캠 시작</button>
+                            <button id="webcam-stop" class="button ghost" type="button">웹캠 정지</button>
+                        </div>
+                        <div id="webcam-container" class="media-frame">
+                            <span class="placeholder">카메라를 시작하면 여기에 표시됩니다.</span>
+                        </div>
+                        <label class="button ghost file-button" for="image-upload">사진 업로드</label>
+                        <input id="image-upload" type="file" accept="image/*" />
+                        <div class="media-frame">
+                            <img id="preview-image" alt="업로드 미리보기" />
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-title">Result</div>
+                        <div id="animal-result" class="animal-result">
+                            <span class="result-emoji">🐾</span>
+                            <div>
+                                <div class="result-label">대기중</div>
+                                <div class="result-score">사진을 업로드하거나 웹캠을 시작하세요.</div>
+                            </div>
+                        </div>
+                        <div id="prediction-list" class="prediction-list"></div>
+                        <div id="label-container" class="label-container" aria-hidden="true"></div>
+                    </div>
+                </div>
+                <p id="model-status" class="model-status">모델 로딩 준비됨.</p>
+            </div>
             <div class="form-wrap">
                 <div class="section-title">제휴 문의</div>
                 <form class="contact-form" action="https://formspree.io/f/mlgbklda" method="POST">
@@ -88,6 +122,8 @@
         Please enable JavaScript to view the
         <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
     </noscript>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
     <script src="main.js"></script>
 </body>
 </html>
