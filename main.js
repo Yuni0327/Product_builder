@@ -287,8 +287,6 @@ const setResult = (label, score) => {
     `;
 };
 
-const classOrder = ['강아지', '고양이', '여우', '토끼', '햄스터', '사슴', '곰'];
-
 const sortPredictions = (predictions) => {
     const orderMap = new Map(classOrder.map((label, index) => [label, index]));
     return [...predictions].sort((a, b) => {
