@@ -181,12 +181,13 @@ body {
     padding: 16px;
 }
 
-#disqus_thread iframe {
-    color-scheme: light;
+body[data-theme="dark"] #disqus_thread {
+    background: #0f0f0f;
+    border-color: #262626;
 }
 
-body[data-theme="dark"] #disqus_thread {
-    color-scheme: dark;
+body[data-theme="dark"] #disqus_thread iframe {
+    filter: invert(1) hue-rotate(180deg);
 }
 
 .chooser-button:hover {
