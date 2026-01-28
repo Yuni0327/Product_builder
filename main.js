@@ -170,7 +170,7 @@ const generateBonusNumber = (excludedNumbers) => {
     return bonus;
 };
 
-const renderNumbers = () => {
+const renderNumbers = (delayStep = 130) => {
     lottoNumbersContainer.innerHTML = '';
     bonusContainer.innerHTML = '';
 
@@ -178,10 +178,14 @@ const renderNumbers = () => {
     const bonus = generateBonusNumber(numbers);
 
     numbers.forEach((number, index) => {
-        lottoNumbersContainer.appendChild(createBall(number, index));
+        const ball = createBall(number, index);
+        ball.style.setProperty('--delay', `${index * delayStep}ms`);
+        lottoNumbersContainer.appendChild(ball);
     });
 
-    bonusContainer.appendChild(createBall(bonus, numbers.length, true));
+    const bonusBall = createBall(bonus, numbers.length, true);
+    bonusBall.style.setProperty('--delay', `${numbers.length * delayStep}ms`);
+    bonusContainer.appendChild(bonusBall);
 };
 
 const playCelebration = () => {
@@ -200,16 +204,18 @@ const generateTicket = () => {
     playCelebration();
 };
 
+const rerollQuick = () => {
+    lottoNumbersContainer.classList.remove('reflow');
+    bonusContainer.classList.remove('reflow');
+    void lottoNumbersContainer.offsetWidth;
+    lottoNumbersContainer.classList.add('reflow');
+    bonusContainer.classList.add('reflow');
+    renderNumbers(60);
+    updateDrawTime();
+};
+
 document.getElementById('generate-btn').addEventListener('click', generateTicket);
-document.getElementById('shuffle-btn').addEventListener('click', () => {
-    lottoNumbersContainer.querySelectorAll('lotto-ball').forEach((ball) => {
-        ball.style.setProperty('--delay', `${Math.random() * 120}ms`);
-    });
-    bonusContainer.querySelectorAll('lotto-ball').forEach((ball) => {
-        ball.style.setProperty('--delay', `${Math.random() * 120}ms`);
-    });
-    playCelebration();
-});
+document.getElementById('shuffle-btn').addEventListener('click', rerollQuick);
 
 generateTicket();
 
