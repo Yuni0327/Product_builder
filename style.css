@@ -242,6 +242,14 @@ body::after {
     margin-top: 28px;
 }
 
+.disqus-wrap {
+    margin-top: 32px;
+}
+
+#disqus_thread {
+    margin-top: 12px;
+}
+
 .contact-form {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
