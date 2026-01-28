@@ -20,11 +20,11 @@
                 </button>
             </div>
             <div class="mode-switch">
-                <button id="mode-lotto" class="tab-button is-active" type="button">로또 생성기</button>
-                <button id="mode-animal" class="tab-button" type="button">동물상 테스트</button>
+                <a href="index.html" class="tab-button is-active">로또 생성기</a>
+                <a href="animal.html" class="tab-button">동물상 테스트</a>
             </div>
 
-            <section id="lotto-section" class="mode-section is-active" aria-live="polite">
+            <section id="lotto-section" aria-live="polite">
                 <div class="results">
                     <div class="numbers">
                         <div class="section-title">Main Numbers</div>
@@ -43,51 +43,6 @@
                     <div class="actions">
                         <button id="generate-btn" class="button primary" type="button">Generate Numbers</button>
                         <button id="shuffle-btn" class="button ghost" type="button">Quick Re-roll</button>
-                    </div>
-                </div>
-            </section>
-
-            <section id="animal-section" class="mode-section">
-                <div class="animal-lab new">
-                    <div class="section-title">동물상 테스트</div>
-                    <p class="subtitle small">웹캠과 업로드 중 한 가지 방식을 선택해, 가장 비슷한 동물상과 특징을 확인하세요.</p>
-                    <div class="lab-layout">
-                        <div class="lab-left">
-                            <div class="hero-card">
-                                <div id="animal-result" class="animal-result">
-                                    <span class="result-emoji">🐾</span>
-                                    <div>
-                                        <div class="result-label">대기중</div>
-                                        <div class="result-score">사진을 업로드하거나 웹캠을 시작하세요.</div>
-                                        <p class="result-traits">결과가 나오면 특징을 알려드릴게요.</p>
-                                    </div>
-                                </div>
-                                <div class="result-actions">
-                                    <button id="webcam-start" class="button primary" type="button">웹캠 시작</button>
-                                    <button id="webcam-stop" class="button ghost" type="button">웹캠 정지</button>
-                                    <label class="button ghost file-button" for="image-upload">사진 업로드</label>
-                                    <input id="image-upload" type="file" accept="image/*" />
-                                </div>
-                                <p id="model-status" class="model-status">모델 로딩 준비됨.</p>
-                            </div>
-                            <div class="prediction-panel">
-                                <div class="panel-title">세부 확률</div>
-                                <div id="prediction-list" class="prediction-list"></div>
-                                <div id="label-container" class="label-container" aria-hidden="true"></div>
-                            </div>
-                        </div>
-                        <div class="lab-right">
-                            <div class="panel-title">Live & Upload</div>
-                            <div class="media-stack">
-                                <div class="media-frame circle large" id="webcam-container">
-                                    <span class="placeholder">카메라를 시작하면 여기에 표시됩니다.</span>
-                                </div>
-                                <div class="media-frame circle large">
-                                    <img id="preview-image" alt="업로드 미리보기" />
-                                </div>
-                            </div>
-                            <p class="hint">웹캠이 켜져 있으면 실시간으로 갱신됩니다.</p>
-                        </div>
                     </div>
                 </div>
             </section>
@@ -142,8 +97,6 @@
         Please enable JavaScript to view the
         <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
     </noscript>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
     <script src="main.js"></script>
 </body>
 </html>

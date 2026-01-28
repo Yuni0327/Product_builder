@@ -97,11 +97,8 @@ class LottoBall extends HTMLElement {
 customElements.define('lotto-ball', LottoBall);
 
 const themeToggleBtn = document.getElementById('theme-toggle');
-const modeLottoBtn = document.getElementById('mode-lotto');
-const modeAnimalBtn = document.getElementById('mode-animal');
-const lottoSection = document.getElementById('lotto-section');
-const animalSection = document.getElementById('animal-section');
 const setTheme = (theme) => {
+    if (!themeToggleBtn) return;
     document.body.setAttribute('data-theme', theme);
     themeToggleBtn.textContent = theme === 'dark' ? 'Light Mode' : 'Dark Mode';
 };
@@ -114,23 +111,12 @@ if (savedTheme) {
     setTheme(prefersDark ? 'dark' : 'light');
 }
 
-themeToggleBtn.addEventListener('click', () => {
+themeToggleBtn?.addEventListener('click', () => {
     const current = document.body.getAttribute('data-theme') || 'light';
     const next = current === 'dark' ? 'light' : 'dark';
     setTheme(next);
     localStorage.setItem('theme', next);
 });
-
-const setMode = (mode) => {
-    const isLotto = mode === 'lotto';
-    modeLottoBtn.classList.toggle('is-active', isLotto);
-    modeAnimalBtn.classList.toggle('is-active', !isLotto);
-    lottoSection.classList.toggle('is-active', isLotto);
-    animalSection.classList.toggle('is-active', !isLotto);
-};
-
-modeLottoBtn.addEventListener('click', () => setMode('lotto'));
-modeAnimalBtn.addEventListener('click', () => setMode('animal'));
 
 const lottoNumbersContainer = document.getElementById('lotto-numbers-container');
 const bonusContainer = document.getElementById('bonus-number-container');
@@ -186,6 +172,7 @@ const generateBonusNumber = (excludedNumbers) => {
 };
 
 const renderNumbers = (delayStep = 130) => {
+    if (!lottoNumbersContainer || !bonusContainer) return;
     lottoNumbersContainer.innerHTML = '';
     bonusContainer.innerHTML = '';
 
@@ -204,12 +191,14 @@ const renderNumbers = (delayStep = 130) => {
 };
 
 const playCelebration = () => {
+    if (!card) return;
     card.classList.remove('celebrate');
     void card.offsetWidth;
     card.classList.add('celebrate');
 };
 
 const updateDrawTime = () => {
+    if (!drawTime) return;
     drawTime.textContent = new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
 };
 
@@ -220,6 +209,7 @@ const generateTicket = () => {
 };
 
 const rerollQuick = () => {
+    if (!lottoNumbersContainer || !bonusContainer) return;
     lottoNumbersContainer.classList.remove('reflow');
     bonusContainer.classList.remove('reflow');
     void lottoNumbersContainer.offsetWidth;
@@ -229,10 +219,12 @@ const rerollQuick = () => {
     updateDrawTime();
 };
 
-document.getElementById('generate-btn').addEventListener('click', generateTicket);
-document.getElementById('shuffle-btn').addEventListener('click', rerollQuick);
+document.getElementById('generate-btn')?.addEventListener('click', generateTicket);
+document.getElementById('shuffle-btn')?.addEventListener('click', rerollQuick);
 
-generateTicket();
+if (lottoNumbersContainer && bonusContainer) {
+    generateTicket();
+}
 
 const TM_MODEL_BASE = 'https://teachablemachine.withgoogle.com/models/mrrlxN-j5/';
 const MODEL_URL = `${TM_MODEL_BASE}model.json`;
@@ -317,12 +309,14 @@ const getEmoji = (label) => {
 };
 
 const setStatus = (text) => {
+    if (!modelStatus) return;
     modelStatus.textContent = text;
 };
 
 const setResult = (label, score) => {
     const emoji = getEmoji(label);
     const traits = traitsMap[label] || '부드러운 인상과 안정적인 분위기가 느껴져요.';
+    if (!resultBox) return;
     resultBox.innerHTML = `
         <span class="result-emoji">${emoji}</span>
         <div>
@@ -351,6 +345,7 @@ const renderPredictions = (predictions) => {
     const percent = Math.round(top.probability * 100);
     setResult(normalizeLabel(top.className), `${percent}% 확률`);
 
+    if (!predictionList) return;
     predictionList.innerHTML = '';
     sorted.forEach((prediction) => {
         const row = document.createElement('div');
@@ -389,9 +384,11 @@ const loadModel = async () => {
         classLabels = typeof model.getClassLabels === 'function' ? model.getClassLabels() : [];
         maxPredictions = classOrder.length || model.getTotalClasses();
         labelContainer = labelContainerEl;
-        labelContainer.innerHTML = '';
-        for (let i = 0; i < maxPredictions; i += 1) {
-            labelContainer.appendChild(document.createElement('div'));
+        if (labelContainer) {
+            labelContainer.innerHTML = '';
+            for (let i = 0; i < maxPredictions; i += 1) {
+                labelContainer.appendChild(document.createElement('div'));
+            }
         }
         setStatus('모델 준비 완료.');
         return model;
@@ -410,7 +407,9 @@ const stopWebcam = () => {
         webcam.stop();
         webcam = null;
     }
-    webcamContainer.innerHTML = '<span class="placeholder">카메라를 시작하면 여기에 표시됩니다.</span>';
+    if (webcamContainer) {
+        webcamContainer.innerHTML = '<span class="placeholder">카메라를 시작하면 여기에 표시됩니다.</span>';
+    }
 };
 
 const predictImage = async (imageElement) => {
@@ -430,13 +429,17 @@ async function loop() {
 async function init() {
     stopWebcam();
     await loadModel();
-    previewImage.classList.remove('is-visible');
-    previewImage.removeAttribute('src');
+    if (previewImage) {
+        previewImage.classList.remove('is-visible');
+        previewImage.removeAttribute('src');
+    }
     webcam = new tmImage.Webcam(280, 280, true);
     await webcam.setup();
     await webcam.play();
-    webcamContainer.innerHTML = '';
-    webcamContainer.appendChild(webcam.canvas);
+    if (webcamContainer) {
+        webcamContainer.innerHTML = '';
+        webcamContainer.appendChild(webcam.canvas);
+    }
     window.requestAnimationFrame(loop);
 }
 
@@ -446,7 +449,7 @@ async function predict() {
     renderPredictions(predictions);
 }
 
-webcamStartBtn.addEventListener('click', async () => {
+webcamStartBtn?.addEventListener('click', async () => {
     try {
         await init();
     } catch (error) {
@@ -454,18 +457,19 @@ webcamStartBtn.addEventListener('click', async () => {
     }
 });
 
-webcamStopBtn.addEventListener('click', () => {
+webcamStopBtn?.addEventListener('click', () => {
     stopWebcam();
     setStatus('웹캠이 중지되었습니다.');
 });
 
-uploadInput.addEventListener('change', async (event) => {
+uploadInput?.addEventListener('change', async (event) => {
     const file = event.target.files[0];
     if (!file) return;
     stopWebcam();
     setStatus('이미지 분석 중...');
     const reader = new FileReader();
     reader.onload = async () => {
+        if (!previewImage) return;
         previewImage.src = reader.result;
         previewImage.classList.add('is-visible');
         previewImage.onload = async () => {
