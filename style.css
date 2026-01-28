@@ -1,16 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&display=swap');
 
 :root {
-    --bg: #f5f6f8;
+    --bg: #f8fafc;
     --surface: #ffffff;
-    --text: #111827;
-    --muted: #6b7280;
-    --primary: #1f2937;
-    --primary-hover: #111827;
-    --secondary: #3b82f6;
-    --secondary-hover: #2563eb;
-    --accent: #eef2ff;
-    --outline: #e5e7eb;
+    --text: #0f172a;
+    --muted: #4b5563;
+    --primary: #0f172a;
+    --primary-hover: #0b1220;
+    --secondary: #2563eb;
+    --secondary-hover: #1d4ed8;
+    --accent: #e2e8f0;
+    --outline: #d6dbe2;
     --shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
     --meta-bg: #f9fafb;
     --meta-border: #e5e7eb;
@@ -225,6 +225,7 @@ body {
     margin: 0;
     color: var(--muted);
     font-size: 1rem;
+    line-height: 1.5;
 }
 
 .results {
