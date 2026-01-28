@@ -334,7 +334,8 @@ const setResult = (label, score) => {
 };
 
 const sortPredictions = (predictions) => {
-    const orderMap = new Map(classOrder.map((label, index) => [label, index]));
+    const orderSource = classLabels.length ? classLabels : classOrder;
+    const orderMap = new Map(orderSource.map((label, index) => [label, index]));
     return [...predictions].sort((a, b) => {
         const aLabel = normalizeLabel(a.className);
         const bLabel = normalizeLabel(b.className);
