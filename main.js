@@ -137,7 +137,7 @@ const setMode = (mode) => {
     if (pageTitle && pageSubtitle) {
         if (isLotto) {
             pageTitle.textContent = 'Lotto Atelier';
-            pageSubtitle.textContent = '세련된 추첨 모션과 보너스 번호까지 한 번에.';
+            pageSubtitle.textContent = '랜덤 번호와 보너스 번호를 빠르게 생성합니다.';
         } else {
             pageTitle.textContent = '동물상 테스트';
             pageSubtitle.textContent = '가장 비슷한 동물상과 특징을 확인해보세요.';
@@ -163,6 +163,18 @@ chooserLotto?.addEventListener('click', () => {
 chooserAnimal?.addEventListener('click', () => {
     setMode('animal');
     closeChooser();
+});
+
+document.querySelectorAll('[data-service]').forEach((button) => {
+    button.addEventListener('click', () => {
+        const service = button.getAttribute('data-service');
+        if (service === 'animal') {
+            setMode('animal');
+        } else {
+            setMode('lotto');
+        }
+        closeChooser();
+    });
 });
 
 const loadDisqus = () => {

@@ -216,6 +216,98 @@ body {
     margin: 0 0 8px;
 }
 
+.site-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 20px;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 12px;
+    font-size: 0.9rem;
+}
+
+.nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+}
+
+.nav-links a:hover {
+    color: var(--text);
+}
+
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.info-card {
+    border: 1px solid var(--outline);
+    border-radius: 12px;
+    padding: 16px;
+    background: var(--panel-bg);
+    display: grid;
+    gap: 10px;
+}
+
+.text-link {
+    color: var(--secondary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.content-block {
+    border: 1px solid var(--outline);
+    border-radius: 12px;
+    padding: 18px;
+    background: var(--panel-bg);
+    display: grid;
+    gap: 12px;
+}
+
+.steps {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--text);
+}
+
+.inline-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    color: var(--muted);
+}
+
+.policy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+}
+
+.policy-grid h4 {
+    margin: 0 0 6px;
+}
+
 .title-group h1 {
     font-size: clamp(2rem, 3vw, 2.6rem);
     margin: 0 0 6px;
@@ -713,6 +805,26 @@ body {
 
     .chooser-card {
         padding: 20px;
+    }
+
+    .site-header {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .header-actions {
+        width: 100%;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+    }
+
+    .hero {
+        flex-direction: column;
+        align-items: flex-start;
     }
 
     .lab-layout {
