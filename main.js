@@ -250,6 +250,20 @@ const emojiMap = {
     곰: '🐻'
 };
 
+const labelMap = {
+    dog: '강아지',
+    cat: '고양이',
+    fox: '여우',
+    rabbit: '토끼',
+    hamster: '햄스터',
+    deer: '사슴',
+    bear: '곰'
+};
+
+const classOrder = ['강아지', '고양이', '여우', '토끼', '햄스터', '사슴', '곰'];
+
+const normalizeLabel = (label) => labelMap[label] || label;
+
 const getEmoji = (label) => {
     if (emojiMap[label]) {
         return emojiMap[label];
@@ -278,8 +292,10 @@ const classOrder = ['강아지', '고양이', '여우', '토끼', '햄스터', '
 const sortPredictions = (predictions) => {
     const orderMap = new Map(classOrder.map((label, index) => [label, index]));
     return [...predictions].sort((a, b) => {
-        const aIndex = orderMap.has(a.className) ? orderMap.get(a.className) : 999;
-        const bIndex = orderMap.has(b.className) ? orderMap.get(b.className) : 999;
+        const aLabel = normalizeLabel(a.className);
+        const bLabel = normalizeLabel(b.className);
+        const aIndex = orderMap.has(aLabel) ? orderMap.get(aLabel) : 999;
+        const bIndex = orderMap.has(bLabel) ? orderMap.get(bLabel) : 999;
         return aIndex - bIndex;
     });
 };
@@ -288,16 +304,17 @@ const renderPredictions = (predictions) => {
     const sorted = sortPredictions(predictions);
     const top = [...predictions].sort((a, b) => b.probability - a.probability)[0];
     const percent = Math.round(top.probability * 100);
-    setResult(top.className, `${percent}% 확률`);
+    setResult(normalizeLabel(top.className), `${percent}% 확률`);
 
     predictionList.innerHTML = '';
     sorted.forEach((prediction) => {
         const row = document.createElement('div');
         row.className = 'prediction-item';
         const probabilityPercent = Math.round(prediction.probability * 100);
+        const displayLabel = normalizeLabel(prediction.className);
         row.innerHTML = `
             <div class="prediction-header">
-                <span>${prediction.className}</span>
+                <span>${displayLabel}</span>
                 <span>${probabilityPercent}%</span>
             </div>
             <div class="prediction-bar"><span style="width:${probabilityPercent}%"></span></div>
@@ -311,7 +328,9 @@ const updateLabelContainer = (predictions) => {
     const ordered = sortPredictions(predictions);
     for (let i = 0; i < maxPredictions; i += 1) {
         const prediction = ordered[i];
-        labelContainer.childNodes[i].innerHTML = `${prediction.className}: ${prediction.probability.toFixed(2)}`;
+        if (!prediction) continue;
+        const displayLabel = normalizeLabel(prediction.className);
+        labelContainer.childNodes[i].innerHTML = `${displayLabel}: ${prediction.probability.toFixed(2)}`;
     }
 };
 
@@ -322,7 +341,7 @@ const loadModel = async () => {
     setStatus('모델 불러오는 중...');
     try {
         model = await tmImage.load(MODEL_URL, METADATA_URL);
-        maxPredictions = model.getTotalClasses();
+        maxPredictions = classOrder.length || model.getTotalClasses();
         labelContainer = labelContainerEl;
         labelContainer.innerHTML = '';
         for (let i = 0; i < maxPredictions; i += 1) {
